@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Produto>
+
+<div class="col-10 justify-content-between align-items-lg-center d-flex">
+    <h1>Produtos</h1>
+
+
+    <a asp-action="Create" class="btn btn-outline-primary"><img src="./image 4.svg"> Adicionar Produto</a>
+</div>
+
+<table class="table table-striped table-hover" id="table-produtos">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fabricante)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Preco)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantidade)
+            </th>
+            <th>
+                Total
+            </th>
+
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fabricante.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Preco)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantidade)
+                </td>
+                <td>
+                     R$ @item.CalcularTotal().ToString("F2")
+                </td>
+                <td>
+
+                    <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.Id"><img src="./editar.svg"/></a> 
+                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id"><img src="./Close (1).svg"/></a>
+
+                </td>
+            </tr>
+
+
+        }
+    </tbody>
+</table>
+
+@{
+    double total = 0;
+    @foreach (var item in Model)
+    {
+        double totalProduto = item.CalcularTotal();
+        total += totalProduto;
+    }
+
+    <h5>Somatório Total</h5>
+    <hr/>
+    <h5>R$ @total.ToString("F2")</h5>
+}
